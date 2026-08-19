@@ -11,12 +11,16 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn -B clean package'
+                dir('starter') {
+                    sh 'mvn -B clean package'
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn -B test'
+                dir('starter') {
+                    sh 'mvn -B clean package'
+                }
             }
             post {
                 always {
