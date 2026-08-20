@@ -27,6 +27,18 @@ pipeline {
                     junit testResults: '**/target/surefire-reports/*.xml, **/target/failsafe-reports/*.xml', allowEmptyResults: false                }
             }
         }
+        stage('Code Coverage') {
+            steps {
+                dir('starter') {
+                    sh 'mvn -B jacoco:report'
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'starter/target/site/jacoco/**/*', allowEmptyArchive: true
+                }
+            }
+        }
         stage('Archive') {
             steps {
                 archiveArtifacts artifacts: 'starter/target/*.jar', fingerprint: true
